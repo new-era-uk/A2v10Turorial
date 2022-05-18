@@ -1,0 +1,14 @@
+﻿{
+	"$schema": "../../@schemas/model-json-schema.json#",
+	"schema": "app",
+	"model": "Document",
+	"dialogs": {
+		"waybillin": {
+			"template": ".\\waybillin\\edit.template",
+			"view": ".\\waybillin\\edit.dialog",
+			"parameters": {
+				"Kind": "WAYBILLIN"
+			}
+		}
+	}
+}
