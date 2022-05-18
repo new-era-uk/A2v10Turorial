@@ -33,7 +33,24 @@ create table app.Documents(
 	[No] nvarchar(10),
 	[Agent] int
 		constraint FK_Documents_Agent_Agents references app.Agents(Id),
-	[Memo] nvarchar(255)
+	[Memo] nvarchar(255),
+	[Sum] money
 )
 go
-
+if not exists(select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME=N'Documents' and COLUMN_NAME=N'Sum')
+	alter table app.Documents add [Sum] money;
+go
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Details')
+create table app.Details(
+	Id int identity(100, 1)
+		constraint PK_Details primary key,
+	[Document] int
+		constraint FK_Details_Document_Documents references app.Documents(Id),
+	[Item] int
+		constraint FK_Details_Item_Items references app.Items(Id),
+	Qty float,
+	Price float,
+	[Sum] money
+)
+go
