@@ -148,6 +148,7 @@
     <Content Include="App_application\%40schemas\api-model-json-schema.json" />
     <Content Include="App_application\main\document\waybillin\model.json" />
     <Content Include="App_application\main\document\model.json" />
+    <Content Include="App_application\main\document\waybillout\model.json" />
     <None Include="packages.config" />
     <None Include="Web.config" />
     <Content Include="Web.config.sample" />
@@ -169,7 +170,7 @@
     <TypeScriptCompile Include="App_application\main\catalog\agent\edit.template.ts" />
     <TypeScriptCompile Include="App_application\main\catalog\agent\index.template.ts" />
     <TypeScriptCompile Include="App_application\main\document\index.template.ts" />
-    <TypeScriptCompile Include="App_application\main\document\waybillin\edit.template.ts" />
+    <TypeScriptCompile Include="App_application\main\document\stock\edit.template.ts" />
     <TypeScriptCompile Include="App_application\main\home\home.template.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -203,12 +204,17 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_application\main\document\waybillin\edit.dialog.xaml">
+    <Content Include="App_application\main\document\stock\edit.dialog.xaml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_application\main\catalog\agent\browse.dialog.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_application\main\catalog\item\browse.dialog.xaml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

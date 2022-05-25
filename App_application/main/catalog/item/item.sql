@@ -10,7 +10,8 @@ create type app.[Item.TableType] as table
 go
 -----------------------------------------------
 create or alter procedure app.[Item.Index]
-@UserId bigint
+@UserId bigint,
+@Id bigint = null
 as
 begin
 	set nocount on;

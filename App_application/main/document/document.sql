@@ -2,16 +2,50 @@
 -----------------------------------------------
 create or alter procedure app.[Document.Index]
 @UserId bigint,
-@Kind nvarchar(32)
+@Kind nvarchar(32),
+@Dir nvarchar(10) = N'desc',
+@Order nvarchar(10) = N'Date',
+@Offset int = 0,
+@PageSize int = 5,
+@From date = null,
+@To date = null,
+@No nvarchar(20) = null
 as
 begin
 	set nocount on;
 	set transaction isolation level read uncommitted;
 
+	set @From = isnull(@From, getdate());
+	set @To = isnull(@To, getdate());
+
 	select [Documents!TDocument!Array] = null, [Id!!Id] = Id, [Date], 
-		Memo, [No], [Agent!TAgent!RefId] = Agent, [Sum]
-	from app.Documents where Kind = @Kind
-	order by Id;
+		Memo, [No], [Agent!TAgent!RefId] = Agent, [Sum], [Done],
+		[!!RowCount] = (select count(*) from app.Documents where Kind = @Kind)
+	from app.Documents where Kind = @Kind and [Date] >= @From and [Date] < dateadd(day, 1, @To)
+	and (@No is null or [No] like N'%' + @No + N'%')
+	order by 
+		case when @Dir = N'asc' then
+			case @Order
+				when N'Date' then [Date]
+			end
+		end asc,
+		case when @Dir = N'desc' then
+			case @Order
+				when N'Date' then [Date]
+			end
+		end desc,
+		case when @Dir = N'asc' then
+			case @Order
+				when N'Sum' then [Sum]
+			end
+		end asc,
+		case when @Dir = N'desc' then
+			case @Order
+				when N'Sum' then [Sum]
+			end
+		end desc
+	offset @Offset rows fetch next @PageSize rows only
+	
 
 	select [!TAgent!Map] = null, [Id!!Id] = a.Id, [Name!!Name] = a.[Name], a.[Code]
 	from app.Agents a
@@ -20,6 +54,12 @@ begin
 
 
 	select [Params!TParam!Object] = null, Kind = @Kind;
+
+	select [!$System!] = null, 
+		[!Documents!SortOrder] = @Order, [!Documents!SortDir] = @Dir,
+		[!Documents!Offset] = @Offset, [!Documents!PageSize] = @PageSize,
+		[!Documents.Period.From!Filter] = @From, [!Documents.Period.To!Filter]= @To,
+		[!Documents.No!Filter] = @No;
 end
 go
 
@@ -34,7 +74,7 @@ begin
 	set transaction isolation level read uncommitted;
 
 	select [Document!TDocument!Object] = null, [Id!!Id] = Id, [Date], 
-		Memo, [No], [Agent!TAgent!RefId] = Agent, [Sum],
+		Memo, [No], [Agent!TAgent!RefId] = Agent, [Sum], [Done],
 		[Rows!TRow!Array] = null
 	from app.Documents where Id = @Id;
 
@@ -42,11 +82,17 @@ begin
 		[Item!TItem!RefId] = Item, [!TDocument.Rows!ParentId] = Document
 	from app.Details where Document = @Id;
 
+	select [!TItem!Array] = null, [Id!!Id] = i.Id, [Name!!Name] = i.[Name]
+	from app.Items i inner join app.Details dd on i.Id = dd.Item
+	where dd.Document = @Id;
+
 	select [!TAgent!Map] = null, [Id!!Id] = Id, [Name!!Name] = [Name], [Code]
 	from app.Agents 
 	where Id in (select Agent from app.Documents where Id = @Id);
 
 	select [Params!TParam!Object] = null, Kind = @Kind;
+
+	select [!$System!] = null, [!!ReadOnly] = Done from app.Documents where Id=@Id;
 end
 go
 -----------------------------------------------
@@ -137,5 +183,55 @@ begin
 
 	exec app.[Document.Load] @UserId = @UserId, @Id = @newid, @Kind = @Kind;
 
+end
+go
+-----------------------------------------------
+create or alter procedure app.[Document.Apply]
+@UserId bigint,
+@Id bigint
+as
+begin
+	set nocount on;
+	set transaction isolation level read committed;
+
+	declare @Done bit;
+	declare @Kind nvarchar(255);
+
+	select @Done = Done, @Kind = Kind from app.Documents where Id=@Id;
+	if @Done = 1
+		throw 60000, N'UI:Document already applied', 0;
+	
+	begin tran
+		update app.Documents set Done = 1 where Id = @Id;
+		insert into app.Journal (Document, [Date], Item, InOut, Qty, [Sum])
+		select Document, getdate(), Item, 
+			case @Kind 
+				when N'WAYBILLIN' then 1 
+				when N'WAYBILLOUT' then -1
+			end, 
+			Qty, [Sum]
+			from app.Details where Document = @Id
+	commit tran;
+end
+go
+
+-----------------------------------------------
+create or alter procedure app.[Document.UnApply]
+@UserId bigint,
+@Id bigint
+as
+begin
+	set nocount on;
+	set transaction isolation level read committed;
+	set xact_abort on;
+
+	declare @Done bit;
+	select @Done = Done from app.Documents where Id=@Id;
+	if @Done = 0
+		throw 60000, N'UI:Document has not applied yet', 0;
+	begin tran
+		update app.Documents set Done = 0 where Id = @Id;
+		delete from app.Journal where Document = @Id;
+	commit tran;
 end
 go

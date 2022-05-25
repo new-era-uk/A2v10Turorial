@@ -15,7 +15,8 @@ begin
 	(20,   1, 1, N'Document', N'document', null),
 	(101, 10, 1, N'Agents',  N'agent', N'users'),
 	(102, 10, 2, N'Items',    N'item',  N'package-outline'),
-	(201, 20, 1, N'Waybill In',   N'waybillin',  N'file');
+	(201, 20, 1, N'Waybill In',    N'waybillin',  N'file'),
+	(202, 20, 1, N'Waybill Out',   N'waybillout',  N'file');
 
 	exec a2ui.[Menu.Merge] @menu, 1, 1000;
 

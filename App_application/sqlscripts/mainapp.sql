@@ -1,6 +1,6 @@
 ﻿/*
 version: 1.0.0001
-generated: 18.05.2022 18:13:12
+generated: 25.05.2022 16:55:51
 */
 
 
@@ -4135,9 +4135,48 @@ create table app.Agents(
 	[Memo] nvarchar(255)
 )
 go
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Items')
+create table app.Items(
+	Id int identity(100, 1)
+		constraint PK_Items primary key,
+	[Name] nvarchar(255),
+	[Article] nvarchar(10),
+	[Memo] nvarchar(255)
+)
+go
 
-
-
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Documents')
+create table app.Documents(
+	Id int identity(100, 1)
+		constraint PK_Documents primary key,
+	Kind nvarchar(32),
+	[Date] date,
+	[No] nvarchar(10),
+	[Agent] int
+		constraint FK_Documents_Agent_Agents references app.Agents(Id),
+	[Memo] nvarchar(255),
+	[Sum] money
+)
+go
+if not exists(select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME=N'Documents' and COLUMN_NAME=N'Sum')
+	alter table app.Documents add [Sum] money;
+go
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Details')
+create table app.Details(
+	Id int identity(100, 1)
+		constraint PK_Details primary key,
+	[Document] int
+		constraint FK_Details_Document_Documents references app.Documents(Id),
+	[Item] int
+		constraint FK_Details_Item_Items references app.Items(Id),
+	Qty float,
+	Price float,
+	[Sum] money
+)
+go
 
 -- application ui
 
@@ -4192,7 +4231,8 @@ create type app.[Agent.TableType] as table
 go
 -----------------------------------------------
 create or alter procedure app.[Agent.Index]
-@UserId bigint
+@UserId bigint,
+@Id int = null
 as
 begin
 	set nocount on;

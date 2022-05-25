@@ -1,0 +1,15 @@
+﻿{
+	"$schema": "../../../@schemas/model-json-schema.json#",
+	"schema": "app",
+	"model": "Document",
+	"actions": {
+		"index": {
+			"index": true,
+			"template": "../index.template",
+			"view": "../index.view",
+			"parameters": {
+				"Kind": "WAYBILLOUT"
+			}
+		}
+	}
+}

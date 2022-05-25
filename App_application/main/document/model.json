@@ -4,11 +4,28 @@
 	"model": "Document",
 	"dialogs": {
 		"waybillin": {
-			"template": ".\\waybillin\\edit.template",
-			"view": ".\\waybillin\\edit.dialog",
+			"template": "./stock/edit.template",
+			"view": "./stock/edit.dialog",
 			"parameters": {
 				"Kind": "WAYBILLIN"
 			}
+		},
+		"waybillout": {
+			"template": "./stock/edit.template",
+			"view": "./stock/edit.dialog",
+			"parameters": {
+				"Kind": "WAYBILLOUT"
+			}
+		}
+	},
+	"commands": {
+		"apply": {
+			"type": "sql",
+			"procedure": "Document.Apply"
+		},
+		"unapply": {
+			"type": "sql",
+			"procedure": "Document.UnApply"
 		}
 	}
 }
