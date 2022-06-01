@@ -1,0 +1,59 @@
+﻿<Page xmlns="clr-namespace:A2v10.Xaml;assembly=A2v10.Xaml">
+	<Page.Toolbar>
+		<Toolbar>
+			<PeriodPicker Label="Date" Value="{Bind Query.Period}"/>
+			<Separator />
+			<Button Icon="Print" Command="{BindCmd Command=Print}"/>
+			<Button Icon="ExportExcel" Command="{BindCmd Command=ExportTo, Format=Excel, FileName='reminders'}"/>
+			<ToolbarAligner />
+			<Button Content="Close" Command="{BindCmd Close}"/>
+		</Toolbar>
+	</Page.Toolbar>
+	<SheetPage Orientation="Portrait">
+		<Sheet GridLines="Both">
+			<Sheet.Columns>
+				<SheetColumn Width="20px"/>
+				<SheetColumn Width="20rem"/>
+				<SheetColumn Width="5rem" Background="Green"/>
+			</Sheet.Columns>
+			<SheetSection>
+				<SheetRow Style="Title">
+					<SheetCell ColSpan="2">Sales (Agent + Item)</SheetCell>
+				</SheetRow>
+				<SheetRow Style="Header">
+					<SheetCell />
+					<SheetCell Content="Agent / Item"/>
+					<SheetCell Content="Qty"/>
+					<SheetCell Content="Sum"/>
+				</SheetRow>
+				<SheetRow Style="Total">
+					<SheetCell />
+					<SheetCell Content="Total"/>
+					<SheetCell Content="{Bind RepData.Qty, DataType=Number}" Align="Right"/>
+					<SheetCell Content="{Bind RepData.Sum, DataType=Currency}" Align="Right"/>
+				</SheetRow>
+			</SheetSection>
+			<SheetTreeSection ItemsSource="{Bind RepData.Items}">
+				<SheetRow>
+					<SheetGroupCell />
+					<SheetCell Content="{Bind $Name}" GroupIndent="True"/>
+					<SheetCell Content="{Bind Qty, DataType=Number}" Align="Right"/>
+					<SheetCell>
+						<Hyperlink Content="{Bind Sum, DataType=Currency}">
+							<Hyperlink.DropDown>
+								<DropDownMenu>
+									<MenuItem Content="View DocList"
+										Command="{BindCmd Execute, CommandName=drillDown, Argument={Bind}}"
+											  />
+									<MenuItem Content="View Transactions"/>
+								</DropDownMenu>
+							</Hyperlink.DropDown>
+						</Hyperlink>
+					</SheetCell>
+					<SheetCell Content="{Bind Agent.Name}" Align="Right"/>
+					<SheetCell Content="{Bind Item.Name}" Align="Right"/>
+				</SheetRow>
+			</SheetTreeSection>
+		</Sheet>
+	</SheetPage>
+</Page>

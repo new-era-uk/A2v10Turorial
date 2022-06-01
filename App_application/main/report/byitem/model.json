@@ -1,0 +1,19 @@
+﻿{
+  "$schema": "../../@schemas/model-json-schema.json#",
+  "schema": "app",
+  "model": "",
+    "actions": {
+        "index": {
+            "view": "index.view"
+        },
+        "rem": {
+            "model": "Report.Item.Rem",
+            "view": "rem.view"
+        },
+        "sales": {
+            "model": "Report.Item.Sales",
+            "template": "sales.template",
+            "view": "sales.view"
+        }
+    }
+}

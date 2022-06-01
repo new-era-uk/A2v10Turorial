@@ -1,0 +1,10 @@
+﻿<Page xmlns="clr-namespace:A2v10.Xaml;assembly=A2v10.Xaml">
+	<List Style="ThreeColumnsGrid">
+		<ListItem Icon="Report" Header="Reminders" Content="Reminders by Item"
+			Command="{BindCmd Open, NewWindow=True, Url='/report/byitem/rem', Argument=0}">
+		</ListItem>
+		<ListItem Icon="Report" Header="Sales 1" Content="Sales (Agent + Item)"
+			Command="{BindCmd Open, NewWindow=True, Url='/report/byitem/sales', Argument=0}">
+		</ListItem>
+	</List>
+</Page>

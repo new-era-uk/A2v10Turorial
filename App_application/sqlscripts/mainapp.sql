@@ -1,6 +1,6 @@
 ﻿/*
 version: 1.0.0001
-generated: 25.05.2022 16:55:51
+generated: 01.06.2022 18:18:00
 */
 
 
@@ -8,7 +8,7 @@ generated: 25.05.2022 16:55:51
 
 /*
 version: 10.0.7779
-generated: 18.05.2022 14:09:35
+generated: 01.06.2022 15:54:12
 */
 
 set nocount on;
@@ -4157,11 +4157,17 @@ create table app.Documents(
 	[Agent] int
 		constraint FK_Documents_Agent_Agents references app.Agents(Id),
 	[Memo] nvarchar(255),
-	[Sum] money
+	[Sum] money,
+	Done bit
 )
 go
+-----------------------------------------------
 if not exists(select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME=N'Documents' and COLUMN_NAME=N'Sum')
 	alter table app.Documents add [Sum] money;
+go
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME=N'Documents' and COLUMN_NAME=N'Done')
+	alter table app.Documents add Done bit;
 go
 -----------------------------------------------
 if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Details')
@@ -4174,6 +4180,22 @@ create table app.Details(
 		constraint FK_Details_Item_Items references app.Items(Id),
 	Qty float,
 	Price float,
+	[Sum] money
+)
+go
+
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Journal')
+create table app.Journal(
+	Id int identity(100, 1)
+		constraint PK_Journal primary key,
+	[Date] date,
+	[Document] int
+		constraint FK_Journal_Document_Documents references app.Documents(Id),
+	[Item] int
+		constraint FK_Journal_Item_Items references app.Items(Id),
+	InOut smallint, -- "1" In, "-1" - Out
+	Qty float,
 	[Sum] money
 )
 go
@@ -4192,10 +4214,13 @@ begin
 	insert into @menu(Id, Parent, [Order], [Name], [Url], Icon) values
 	(1, null, 0, N'ROOT', null, null),
 	(10,   1, 1, N'Catalog', N'catalog', null),
-	(20,   1, 1, N'Document', N'document', null),
+	(20,   1, 2, N'Document', N'document', null),
+	(30,   1, 3, N'Report',  N'report', null),
 	(101, 10, 1, N'Agents',  N'agent', N'users'),
 	(102, 10, 2, N'Items',    N'item',  N'package-outline'),
-	(201, 20, 1, N'Waybill In',   N'waybillin',  N'file');
+	(201, 20, 1, N'Waybill In',    N'waybillin',  N'file'),
+	(202, 20, 1, N'Waybill Out',   N'waybillout',  N'file'),
+	(301, 30, 1, N'By Item',   N'byitem',  N'report');
 
 	exec a2ui.[Menu.Merge] @menu, 1, 1000;
 
@@ -4311,7 +4336,8 @@ create type app.[Item.TableType] as table
 go
 -----------------------------------------------
 create or alter procedure app.[Item.Index]
-@UserId bigint
+@UserId bigint,
+@Id bigint = null
 as
 begin
 	set nocount on;
@@ -4376,5 +4402,17 @@ begin
 	select @newid = id from @rtable;
 
 	exec app.[Item.Load] @UserId = @UserId, @Id = @newid;
+end
+go
+-- Home model
+-----------------------------------------------
+create or alter procedure app.[Report.Item.Rem.Load]
+@UserId bigint
+as
+begin
+	set nocount on;
+	set transaction isolation level read uncommitted;
+
+	select [Home!THome!Object] = null, [User!TUser!RefId] = @UserId;
 end
 go
