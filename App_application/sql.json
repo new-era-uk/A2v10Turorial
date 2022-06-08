@@ -11,7 +11,8 @@
         "main/home/home.sql",
         "main/catalog/agent/agent.sql",
         "main/catalog/item/item.sql",
-        "main/report/byitem/report.item.sql"
+        "main/report/byitem/report.item.sql",
+        "main/report/external/external.sql"
 
     ]
   }

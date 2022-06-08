@@ -1,0 +1,48 @@
+﻿<Page xmlns="clr-namespace:A2v10.Xaml;assembly=A2v10.Xaml">
+	<Page.CollectionView>
+		<CollectionView ItemsSource="{Bind Banks}" RunAt="Server" Filter="Fragment"/>
+	</Page.CollectionView>
+	<Page.Toolbar>
+		<Toolbar AlignItems="Stretch">
+			<Button Icon="Plus" Content="@[Create]"
+				Command="{BindCmd Dialog, Action=Append, Argument={Bind Banks}, Url=/catalog/bank/edit}"/>
+			<Button Icon="Edit"
+				Command="{BindCmd Dialog, Action=EditSelected, Argument={Bind Banks}, Url=/catalog/bank/edit}"/>
+			<Button Icon="Delete"
+				Command="{BindCmd DbRemoveSelected, Argument={Bind Banks}, Confirm='@[Confirm.Delete.Element]'}"/>
+			<ToolbarAligner />
+			<TextBox Value="{Bind Parent.Filter.Fragment}"
+						Placeholder="@[Search]"
+						Width="25rem" ShowClear="True" ShowFilter="True"/>
+			<Button Icon="Reload" Command="{BindCmd Reload}" />
+			<Separator Toolbar.Align="Right"/>
+			<Button Icon="Menu" Toolbar.Align="Right">
+				<Button.DropDown>
+					<DropDownMenu Direction="DownLeft">
+						<MenuItem Content="Завантажити з сайта НБУ" Command="{BindCmd Execute, CommandName=download}"/>
+					</DropDownMenu>
+				</Button.DropDown>
+			</Button>
+		</Toolbar>
+	</Page.Toolbar>
+	<DataGrid Grid.Row="2" ItemsSource="{Bind Parent.ItemsSource}" FixedHeader="True"
+				Sort="True" GridLines="Both" Striped="True" Hover="True"
+				DoubleClick="{BindCmd Dialog, Action=EditSelected, Argument={Bind Banks}, Url='/catalog/bank/edit'}">
+		<DataGridColumn Header="Id" Content="{Bind Id}" Role="Id"/>
+		<DataGridColumn Header="MФО" Content="{Bind BankCode}" Fit="True" Wrap="NoWrap"/>
+		<DataGridColumn Header="@[Name]" Content="{Bind Name}" Width="100"/>
+		<DataGridColumn Header="ЄДРПОУ" Content="{Bind Code}" Fit="True" Wrap="NoWrap"/>
+		<DataGridColumn Header="@[Memo]" Content="{Bind Memo}" Width="100"/>
+		<DataGridColumn Fit="True">
+			<CommandBar Visibility="Hover">
+				<Button Icon="Edit" 
+						Command="{BindCmd Dialog, Action=Edit, Argument={Bind}, Url='/catalog/bank/edit'}"/>
+				<Button Icon="Delete"
+						Command="{BindCmd DbRemove, Argument={Bind}, Confirm='@[Confirm.Delete.Element]'}" />
+			</CommandBar>
+		</DataGridColumn>
+	</DataGrid>
+	<Page.Pager>
+		<Pager Source="{Bind Parent.Pager}"/>
+	</Page.Pager>
+</Page>

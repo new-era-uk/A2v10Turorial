@@ -8,6 +8,8 @@
 		<add key="appPath" value="~/App_application" />
 		<add key="appKey" value="sample" />
 		<add key="configuration" value="debug" />
+		<add key="GoogleMapsApiKey" value="My_GOOGLE_API_KEY_HERE" />
+		<add key="apiAuthentication" value="ApiKey,Basic" />
 	</appSettings>
 
 	<system.web>

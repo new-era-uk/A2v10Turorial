@@ -90,11 +90,24 @@
     <Content Include="App_application\%40sql\platform\source\a2v10ui.sql" />
     <Content Include="App_application\%40sql\platform\source\a2v10ui_simple.sql" />
     <Content Include="App_application\%40sql\platform\source\a2v10workflow.sql" />
+    <Content Include="App_application\main\catalog\bank\bank.sql" />
+    <Content Include="App_application\main\catalog\bank\downloadbanks.server.js" />
+    <Content Include="App_application\main\catalog\bank\edit.template.js" />
+    <Content Include="App_application\main\catalog\bank\index.template.js" />
     <Content Include="App_application\main\catalog\item\item.sql" />
     <Content Include="App_application\main\catalog\agent\agent.sql" />
     <Content Include="App_application\main\document\document.sql" />
     <Content Include="App_application\main\home\home.sql" />
     <Content Include="App_application\main\report\byitem\report.item.sql" />
+    <Content Include="App_application\main\report\external\external.sql" />
+    <Content Include="App_application\main\report\external\chartjs.template.js" />
+    <Content Include="App_application\main\report\external\webdatarocks.template.js" />
+    <Content Include="App_application\main\report\external\chartjs.view.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_application\main\_apiv2\agent\list.server.js" />
+    <Content Include="App_application\main\_apiv2\agent\item.server.js" />
+    <Content Include="App_application\main\_layout\_scripts.html" />
     <Content Include="App_application\main\_localization\main.uk.txt" />
     <Content Include="App_application\main\_sql\struct.sql" />
     <Content Include="App_application\main\_sql\ui.sql" />
@@ -151,15 +164,13 @@
     <Content Include="App_application\%40schemas\model-json-schema.json" />
     <Content Include="App_application\%40schemas\app-json-schema.json" />
     <Content Include="App_application\%40schemas\api-model-json-schema.json" />
+    <Content Include="App_application\main\report\external\model.json" />
+    <Content Include="App_application\main\map\model.json" />
+    <Content Include="App_application\main\catalog\bank\model.json" />
+    <Content Include="App_application\main\_apiv2\agent\model.json" />
     <None Include="packages.config" />
     <None Include="Web.config" />
     <Content Include="Web.config.sample" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_application\main\catalog\sample\" />
@@ -167,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="App_application\%40types\platform.d.ts" />
+    <TypeScriptCompile Include="App_application\main\catalog\bank\edit.d.ts" />
+    <TypeScriptCompile Include="App_application\main\catalog\bank\edit.template.ts" />
+    <TypeScriptCompile Include="App_application\main\catalog\bank\index.template.ts" />
     <TypeScriptCompile Include="App_application\main\catalog\item\edit.template.ts" />
     <TypeScriptCompile Include="App_application\main\catalog\item\index.template.ts" />
     <TypeScriptCompile Include="App_application\main\catalog\agent\edit.template.ts" />
@@ -174,6 +188,7 @@
     <TypeScriptCompile Include="App_application\main\document\index.template.ts" />
     <TypeScriptCompile Include="App_application\main\document\stock\edit.template.ts" />
     <TypeScriptCompile Include="App_application\main\home\home.template.ts" />
+    <TypeScriptCompile Include="App_application\main\map\googlemap.template.ts" />
     <TypeScriptCompile Include="App_application\main\report\byitem\sales.template.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +251,24 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_application\main\report\external\webdatarocks.view.html">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_application\main\map\googlemap.view.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_application\main\catalog\bank\edit.dialog.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_application\main\catalog\bank\index.view.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -248,16 +281,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52137</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44398/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

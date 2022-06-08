@@ -22,6 +22,18 @@ create table app.Items(
 	[Memo] nvarchar(255)
 )
 go
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Banks')
+create table app.Banks(
+	Id int identity(100, 1)
+		constraint PK_Banks primary key,
+	[Name] nvarchar(255),
+	[FullName] nvarchar(255),
+	[Code] nvarchar(10),
+	[BankCode] nvarchar(12),
+	[Memo] nvarchar(255)
+)
+go
 
 -----------------------------------------------
 if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Documents')

@@ -1,6 +1,6 @@
 ﻿/*
 version: 1.0.0001
-generated: 04.06.2022 07:33:53
+generated: 08.06.2022 17:52:34
 */
 
 
@@ -4145,6 +4145,18 @@ create table app.Items(
 	[Memo] nvarchar(255)
 )
 go
+-----------------------------------------------
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Banks')
+create table app.Banks(
+	Id int identity(100, 1)
+		constraint PK_Banks primary key,
+	[Name] nvarchar(255),
+	[FullName] nvarchar(255),
+	[Code] nvarchar(10),
+	[BankCode] nvarchar(12),
+	[Memo] nvarchar(255)
+)
+go
 
 -----------------------------------------------
 if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = N'app' and TABLE_NAME = N'Documents')
@@ -4216,8 +4228,10 @@ begin
 	(10,   1, 1, N'Catalog', N'catalog', null),
 	(20,   1, 2, N'Document', N'document', null),
 	(30,   1, 3, N'Report',  N'report', null),
+	(40,   1, 3, N'Maps',    N'map', null),
 	(101, 10, 1, N'Agents',  N'agent', N'users'),
 	(102, 10, 2, N'Items',    N'item',  N'package-outline'),
+	(103, 10, 3, N'Banks',    N'bank',  N'currency-uah'),
 	(201, 20, 1, N'Waybill In',    N'waybillin',  N'file'),
 	(202, 20, 1, N'Waybill Out',   N'waybillout',  N'file'),
 	(301, 30, 1, N'By Item',   N'byitem',  N'report');
@@ -4225,6 +4239,13 @@ begin
 	exec a2ui.[Menu.Merge] @menu, 1, 1000;
 
 	exec [a2security].[Permission.UpdateAcl.Menu];
+end
+go
+
+if not exists(select * from a2security.ApiUserLogins)
+begin
+	insert into a2security.ApiUserLogins ([User], [Mode], ApiKey)
+	values (99, N'ApiKey', N'GFtykJu0N23RauorKTYCMZs3ezJb2dsfenQ5vvhtlyIiDcpuWNi/kdtP0hxw1v')
 end
 go
 
@@ -4471,3 +4492,36 @@ end
 go
 
 exec app.[Report.Item.Sales.Load] 99;
+
+-----------------------------------------------
+create or alter procedure app.[Report.WebDataRocks.Load]
+@UserId bigint
+as
+begin
+	set nocount on;
+	set transaction isolation level read uncommitted;
+
+	select [Sales!TSale!Array] = null, d.[Date],
+		[AgentName] = a.[Name], ItemName = i.[Name], j.Qty, j.[Sum]
+	from app.Journal j
+		inner join app.Documents d on j.Document = d.Id
+		left join app.Agents a on d.Agent = a.Id
+		left join app.Items i on j.Item = i.Id
+	where d.Kind = N'WAYBILLOUT';
+end
+go
+-----------------------------------------------
+create or alter procedure app.[Report.ChartJs.Load]
+@UserId bigint
+as
+begin
+	set nocount on;
+	set transaction isolation level read uncommitted;
+	select [Sales!TSale!Array] = null, d.[Date], Qty = sum(j.Qty), Sum = Sum(j.[Sum])
+	from app.Journal j
+		inner join app.Documents d on j.Document = d.Id
+	where d.Kind = N'WAYBILLOUT'
+	group by d.[Date]
+end
+go
+

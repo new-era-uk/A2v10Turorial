@@ -6,5 +6,11 @@
 		<ListItem Icon="Report" Header="Sales 1" Content="Sales (Agent + Item)"
 			Command="{BindCmd Open, NewWindow=True, Url='/report/byitem/sales', Argument=0}">
 		</ListItem>
+		<ListItem Icon="Report" Header="WebDataRocks" Content="Free web pivot table tool"
+			Command="{BindCmd Open, NewWindow=True, Url='/report/external/webdatarocks', Argument=0}">
+		</ListItem>
+		<ListItem Icon="Report" Header="Chart.js" Content="Simple yet flexible JavaScript charting for designers &amp; developers"
+			Command="{BindCmd Open, NewWindow=True, Url='/report/external/chartjs', Argument=0}">
+		</ListItem>
 	</List>
 </Page>

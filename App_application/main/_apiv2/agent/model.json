@@ -1,0 +1,19 @@
+﻿{
+	"$schema": "../../../@schemas/api-model-json-schema.json#",
+	"commands": {
+		"item": {
+			"method": "post",
+			"type": "javascript",
+			"javascriptCommand": {
+				"script": "item.server"
+			}
+		},
+		"list": {
+			"method": "post",
+			"type": "javascript",
+			"javascriptCommand": {
+				"script": "list.server"
+			}
+		}
+	}
+}

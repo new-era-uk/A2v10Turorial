@@ -1,0 +1,24 @@
+﻿{
+  "$schema": "../../../@schemas/model-json-schema.json#",
+  "schema": "app",
+  "model": "Bank",
+  "actions": {
+    "index": {
+      "index": true,
+      "template": "index.template",
+      "view": "index.view"
+    }
+  },
+  "dialogs": {
+    "edit": {
+      "template": "edit.template",
+      "view": "edit.dialog"
+    }
+  },
+  "commands": {
+    "downloadBanks": {
+      "type": "javascript",
+      "file": "downloadbanks.server"
+    }
+  }
+}

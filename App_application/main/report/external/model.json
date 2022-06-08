@@ -1,0 +1,27 @@
+﻿{
+	"$schema": "../../../@schemas/model-json-schema.json#",
+	"schema": "app",
+	"model": "",
+	"actions": {
+		"webdatarocks": {
+			"model": "Report.WebDataRocks",
+			"template": "webdatarocks.template",
+			"view": "webdatarocks.view",
+			"scripts": [
+				"https://cdn.webdatarocks.com/latest/webdatarocks.toolbar.min.js",
+				"https://cdn.webdatarocks.com/latest/webdatarocks.js"
+			],
+			"styles": [
+				"https://cdn.webdatarocks.com/latest/webdatarocks.min.css"
+			]
+		},
+		"chartjs": {
+			"model": "Report.ChartJs",
+			"template": "chartjs.template",
+			"view": "chartjs.view",
+			"scripts": [
+				"https://cdn.jsdelivr.net/npm/chart.js"
+			]
+		}
+	}
+}

@@ -1,0 +1,11 @@
+﻿{
+  "$schema": "../../@schemas/model-json-schema.json#",
+  "schema": "app",
+  "model": "",
+  "actions": {
+    "index": {
+        "template": "googlemap.template",
+        "view": "googlemap.view"
+    }
+  }
+}
