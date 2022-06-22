@@ -169,7 +169,7 @@
     <Content Include="App_application\main\catalog\bank\model.json" />
     <Content Include="App_application\main\_apiv2\agent\model.json" />
     <None Include="packages.config" />
-    <None Include="Web.config" />
+    <None Include="Web.config_2" />
     <Content Include="Web.config.sample" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +186,7 @@
     <TypeScriptCompile Include="App_application\main\catalog\agent\edit.template.ts" />
     <TypeScriptCompile Include="App_application\main\catalog\agent\index.template.ts" />
     <TypeScriptCompile Include="App_application\main\document\index.template.ts" />
+    <TypeScriptCompile Include="App_application\main\document\stock\edit.d.ts" />
     <TypeScriptCompile Include="App_application\main\document\stock\edit.template.ts" />
     <TypeScriptCompile Include="App_application\main\home\home.template.ts" />
     <TypeScriptCompile Include="App_application\main\map\googlemap.template.ts" />

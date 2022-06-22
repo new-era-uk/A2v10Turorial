@@ -29,11 +29,11 @@ define(["require", "exports"], function (require, exports) {
     async function apply(doc) {
         const ctrl = this.$ctrl;
         await ctrl.$invoke('apply', { Id: doc.Id }, '/document');
-        ctrl.$requery();
+        await ctrl.$requery();
     }
     async function unapply(doc) {
         const ctrl = this.$ctrl;
         await ctrl.$invoke('unapply', { Id: doc.Id }, '/document');
-        ctrl.$requery();
+        await ctrl.$requery();
     }
 });

@@ -6,6 +6,7 @@
 		"waybillin": {
 			"template": "./stock/edit.template",
 			"view": "./stock/edit.dialog",
+			"checkTypes": "./stock/edit.d.ts",
 			"parameters": {
 				"Kind": "WAYBILLIN"
 			}
