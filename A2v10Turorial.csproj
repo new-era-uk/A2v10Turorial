@@ -169,7 +169,7 @@
     <Content Include="App_application\main\catalog\bank\model.json" />
     <Content Include="App_application\main\_apiv2\agent\model.json" />
     <None Include="packages.config" />
-    <None Include="Web.config_2" />
+    <None Include="Web.config" />
     <Content Include="Web.config.sample" />
   </ItemGroup>
   <ItemGroup>
