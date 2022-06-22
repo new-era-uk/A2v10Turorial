@@ -15,7 +15,7 @@
 			Label="Date" Value="{Bind Document.Date}"/>
 		<TextBox Label="No" Grid.Col="2" Grid.Row="1" Value="{Bind Document.No}"/>
 		<Selector Grid.Row="2" Grid.Col="1" Grid.ColSpan="2"
-			Label="Agent" Value="{Bind Document.Agent}" DisplayProperty="Name"
+					Label="Agent" Value="{Bind Document.Agent}" DisplayProperty="Name"
 				  Description="{Bind Document.Agent.Code}">
 			<Hyperlink Icon="Search" 
 					   Command="{BindCmd Browse, Argument={Bind Document.Agent}, 
@@ -28,8 +28,8 @@
 		<Toolbar>
 			<Button Content="Add row" Command="{BindCmd Append, Argument={Bind Document.Rows}}"></Button>
 		</Toolbar>
-		<Table ItemsSource="{Bind Document.Rows}"
-			   GridLines="Both" Columns="20rem,7rem,7rem,7rem,Fit" Height="20rem" StickyHeaders="True">
+		<Table ItemsSource="{Bind Document.Rows}" TestId="StockTable"
+			   GridLines="Both" Columns="20rem,7rem,7rem,7rem,Fit" Height="20rem">
 			<Table.Header>
 				<TableRow>
 					<TableCell Content="Item"/>
@@ -45,9 +45,9 @@
 					   Command="{BindCmd Browse, Argument={Bind Item}, 
 							Url='/catalog/Item/browse'}"/>
 				</Selector>
-				<TextBox Value="{Bind Qty}" Align="Right"/>
-				<TextBox Value="{Bind Price}" Align="Right"/>
-				<TextBox Value="{Bind Sum, DataType=Currency}" Align="Right"/>
+				<TextBox Value="{Bind Qty}" Align="Right" TestId="Qty"/>
+				<TextBox Value="{Bind Price}" Align="Right" TestId="Price"/>
+				<TextBox Value="{Bind Sum, DataType=Currency}" Align="Right" TestId="Sum"/>
 				<Hyperlink Icon="Delete" Size="Small" Command="{BindCmd Remove, Argument={Bind}}"/>
 			</TableRow>
 		</Table>

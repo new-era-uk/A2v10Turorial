@@ -1,5 +1,6 @@
 ﻿
-import { TRoot, TDocument, TRow } from 'edit';
+
+import { TDocument, TRow, TRows, TRoot } from "edit.d"
 
 const utilsDate: UtilsDate = require('std:utils').date;
 
@@ -29,13 +30,13 @@ const template: Template = {
 
 export default template;
 
-async function apply(this: IRoot, doc: TDocument) {
-	const ctrl: IController = this.$ctrl;
+async function apply(this: TRoot, doc: TDocument) {
+	const ctrl = this.$ctrl;
 	await ctrl.$invoke('apply', { Id: doc.Id }, '/document');
 	await ctrl.$requery();
 }
 
-async function unapply(this: IRoot, doc: TDocument) {
+async function unapply(this: TRoot, doc: TDocument) {
 	const ctrl: IController = this.$ctrl;
 	await ctrl.$invoke('unapply', { Id: doc.Id }, '/document');
 	await ctrl.$requery();

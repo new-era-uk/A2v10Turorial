@@ -1,0 +1,8 @@
+﻿<Feature xmlns="clr-namespace:A2v10.Tests.Browser.Xaml;assembly=A2v10.Tests.Browser"
+	Description="test top menu">
+	<Scenario Description="Test side menu for catalog">
+		<Navigate Url="/catalog/agent"/>
+		<Navigate Url="/catalog/item"/>
+		<Navigate Url="/catalog/bank"/>
+	</Scenario>
+</Feature>

@@ -1,0 +1,46 @@
+﻿<Feature xmlns="clr-namespace:A2v10.Tests.Browser.Xaml;assembly=A2v10.Tests.Browser"
+	Description="test document">
+	<Scenario Description="Navigate to document">
+		<Escape />
+		<Navigate Url="/document/waybillin"/>
+	</Scenario>
+	<Scenario>
+		<Button Text="Create">
+			<Click />
+		</Button>
+		<Dialog Title="WAYBILLIN">
+			<Control Label="Date">
+				<EnsureDate Today="True"/>
+			</Control>
+			<Control Label="Agent">
+				<EnsureEmpty />
+				<ClickAddOn Icon="Search" />
+				<Dialog TestId="BrowseAgent">
+					<Escape />
+				</Dialog>
+			</Control>
+			<ClickButton Text="Add row"/>
+			<Table TestId="StockTable">
+				<Body>
+					<TableRow Index="0">
+						<Control TestId="Qty">
+							<Invalid Message="Enter qty"/>
+							<TypeText Text="1"/>
+							<Valid />
+							<EnsureNumber Number="1" />
+						</Control>
+						<Control TestId="Price">
+							<TypeText Text="20"/>
+						</Control>
+						<Control TestId="Sum">
+							<EnsureNumber Number="20"/>
+						</Control>
+					</TableRow>
+				</Body>
+			</Table>
+			<Button Text="SaveAndClose">
+				<Click />
+			</Button>
+		</Dialog>
+	</Scenario>
+</Feature>

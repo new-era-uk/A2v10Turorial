@@ -1,0 +1,8 @@
+﻿<Feature xmlns="clr-namespace:A2v10.Tests.Browser.Xaml;assembly=A2v10.Tests.Browser"
+	Description="test top menu">
+	<Scenario>
+		<ClickLink Url="/catalog"/>
+		<ClickLink Url="/document"/>
+		<ClickLink Url="/report"/>
+	</Scenario>
+</Feature>
